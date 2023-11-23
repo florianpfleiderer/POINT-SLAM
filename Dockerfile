@@ -7,8 +7,8 @@
 # Use an official PyTorch base image
 # FROM pytorch/pytorch:1.10.0-cuda11.3-cudnn8-runtime
 
-# use ubuntu base image because work is done in conda environment anyway
-FROM ubuntu:20.04
+# nvidia cuda base image
+FROM nvidia/cuda:11.6.1-base-ubuntu20.04
 
 # Set the working directory in the container
 WORKDIR /point-slam
@@ -21,7 +21,7 @@ COPY . .
 
 # Install git and wget
 RUN apt-get update && \
-    apt-get install -y git wget cmake gcc g++ && \
+    apt-get install -y git wget cmake gcc g++ libgl1-mesa-glx libglib2.0-0 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
