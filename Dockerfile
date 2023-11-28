@@ -16,9 +16,6 @@ WORKDIR /point-slam
 # Set noninteractive mode
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Copy the current directory contents into the container at /app
-COPY . .
-
 # Install git and wget
 RUN apt-get update && \
     apt-get install -y git wget cmake gcc g++ libgl1-mesa-glx libglib2.0-0 && \
@@ -47,11 +44,22 @@ SHELL ["/bin/bash", "--login", "-c"]
 # run updates
 RUN conda update -n base -c defaults conda
 
+# copy environment file
+COPY environment.yml environment.yml
+
 # Create a Conda environment
 RUN conda env create -f environment.yml
 
 # start container in cyws3d env
 RUN touch ~/.bashrc && echo "conda activate point-slam" >> ~/.bashrc
+
+# copy source code
+COPY configs/ configs/
+COPY cull_replica_mesh/ cull_replica_mesh/
+COPY pretrained/ pretrained/
+COPY scripts/ scripts/
+COPY src/ src/
+COPY repro.sh run.py test_deterministic.py ./
 
 # Set the default command to run when the container starts
 CMD ["bash"]
