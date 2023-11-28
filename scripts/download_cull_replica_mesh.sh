@@ -2,3 +2,5 @@
 # link: https://caiyun.139.com/m/i?1A5CvGNQmSDsI  password: Dhhp
 wget https://cvg-data.inf.ethz.ch/nice-slam/cull_replica_mesh.zip
 unzip cull_replica_mesh.zip
+# Remove the Replica.zip file to save space
+rm cull_replica_mesh.zip
