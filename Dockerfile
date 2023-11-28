@@ -18,7 +18,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install git and wget
 RUN apt-get update && \
-    apt-get install -y git wget cmake gcc g++ libgl1-mesa-glx libglib2.0-0 && \
+    apt-get install -y git wget cmake gcc g++ libgl1-mesa-glx libglib2.0-0 unzip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -53,11 +53,13 @@ RUN conda env create -f environment.yml
 # start container in cyws3d env
 RUN touch ~/.bashrc && echo "conda activate point-slam" >> ~/.bashrc
 
+COPY scripts/ scripts/
+# RUN bash scripts/download_replica.sh
+
 # copy source code
 COPY configs/ configs/
 COPY cull_replica_mesh/ cull_replica_mesh/
 COPY pretrained/ pretrained/
-COPY scripts/ scripts/
 COPY src/ src/
 COPY repro.sh run.py test_deterministic.py ./
 
